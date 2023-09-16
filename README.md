@@ -7,7 +7,7 @@ This project focuses on the development of a Heartbeat and Temperature Monitorin
 
 The system’s vital sign data is presented in real-time on an LCD display, enhancing its user-friendliness. This integrated setup guarantees accurate data collection and presentation, empowering healthcare professionals to monitor patients’ vital signs with precision and ease.
 
-# **The Block Diagram of the Project**
+## **The Block Diagram of the Project**
 
 ![](https://miro.medium.com/v2/resize:fit:630/1*HpNl5lCmhuWltvlwq-j5Ug.png)
 
@@ -27,92 +27,5 @@ The figure above shows our successful body temperature monitoring system. The LC
 
 The figure above demonstrates our effective heartbeat monitoring system. It vividly displays the LCD’s ability to show the pulse rate accurately and in real-time. This visual representation confirms the system’s proficiency in measuring and monitoring heartbeats. It also highlights the smooth collaboration between the heartbeat sensor, Arduino Uno microcontroller, and LCD display, showcasing their seamless synergy in providing essential physiological data. This visual feedback affirms the system’s potential for healthcare applications, making heart health monitoring easy and precise for both healthcare providers and individuals, promoting proactive and informed healthcare practices.
 
-**CODE FOR THE ARDUINO MICROCONTROLLER**
-
-  
-#include <TimerOne.h>  
-  
-#include <LiquidCrystal.h>  
-LiquidCrystal lcd(13, 12, 11, 10, 9, 8);  
-  
-int val;  
-int tempPin = A0;// temperature Sensor Pin  
-int HBSensor = 7;// Sensor Pin  
-int HBCount = 0;  
-int HBCheck = 0;  
-int TimeinSec = 0;  
-int HBperMin = 0;  
-int HBStart = 2;  
-int HBStartCheck = 0;  
-  
-void setup() {  
-  // put your setup code here, to run once:  
-  lcd.begin(20, 4);  
-  pinMode(HBSensor, INPUT);  
-  pinMode(HBStart, INPUT_PULLUP);  
-  Timer1.initialize(800000);   
-  Timer1.attachInterrupt( timerIsr );  
-  lcd.clear();  
-  lcd.setCursor(0,0);  
-  lcd.print("HEALTH MONITORING");  
-  lcd.setCursor(0,1);  
-  lcd.print("TIME IN SEC : ");  
-  lcd.setCursor(0,3);  
-  lcd.print("BODY TEMP   : ");  
-  lcd.setCursor(0,2);  
-  lcd.print("HB PER MIN  : ");  
-    
-}  
-  
-void loop() {  
-  val = analogRead(tempPin);  
-  float mv = (val/1023.0)*5000;  
-  int cel = mv/10;  
-  lcd.setCursor(14,3);  
-  lcd.print(cel);  
-  lcd.print("   ");  
-  delay(100);  
-    
-  if(digitalRead(HBStart) == LOW)  
-  {  
-    HBStartCheck = 1;  
-  }  
-    
-  if(HBStartCheck == 1)  
-  {  
-    if((digitalRead(HBSensor) == HIGH) && (HBCheck == 0))  
-      {  
-        HBCount = HBCount + 1;  
-        HBCheck = 1;  
-      }  
-        
-      if((digitalRead(HBSensor) == LOW) && (HBCheck == 1))  
-      {  
-        HBCheck = 0;     
-      }  
-        
-      if(TimeinSec == 10)  
-      {  
-          HBperMin = HBCount * 6;;  
-          HBStartCheck = 0;  
-          lcd.setCursor(14,2);  
-          lcd.print(HBperMin);  
-          lcd.print(" ");  
-          HBCount = 0;  
-          TimeinSec = 0;        
-      }  
-  }  
-}  
-  
-void timerIsr()  
-{  
-  if(HBStartCheck == 1)  
-  {  
-      TimeinSec = TimeinSec + 1;  
-      lcd.setCursor(14,1);  
-      lcd.print(TimeinSec);  
-      lcd.print(" ");  
-  }  
-}
-
+## CONCLUSIONS AND SUMMARY
 In conclusion, our project successfully demonstrates a practical and versatile health monitoring system. By integrating temperature and heartbeat sensors with the Arduino Uno microcontroller and an LCD, we achieve real-time and precise monitoring of key health parameters. This accomplishment has significant implications in healthcare and beyond. In healthcare, it can be used in hospitals, clinics, and homes for continuous and non-invasive health tracking, benefiting both healthcare professionals and individuals. Additionally, its technology can be integrated into wearable devices, enabling convenient and portable health monitoring for fitness, sports, and general well-being. It also holds promise in fields like sports science, research, and telemedicine. Overall, our project represents a significant step towards practical health monitoring solutions with real-time capabilities, accuracy, and a user-friendly interface, benefiting various aspects of life and industry.
